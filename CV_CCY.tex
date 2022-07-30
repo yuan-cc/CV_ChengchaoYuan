@@ -1,0 +1,406 @@
+\documentclass[11pt,english]{article}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{babel}
+\usepackage{scrextend}
+\usepackage{wasysym}
+\usepackage{fontawesome5}
+
+\usepackage{academicons}
+% Uncomment any of the following four lines to get different fonts
+%\usepackage[garamondx,bigdelims]{newtxmath}
+%\usepackage{garamondx}
+%\usepackage{mathpazo}
+%\usepackage{mathptmx}
+\usepackage{newcent}
+
+% Colors: see  http://www.math.umbc.edu/~rouben/beamer/quickstart-Z-H-25.html
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{oucrimson}   {RGB}{132.,22. ,23. }
+\definecolor{byublue}     {RGB}{0.  ,30. ,76. }
+\definecolor{navyblue}    {RGB}{0.  ,0.  ,128.}
+\definecolor{darkblue}    {RGB}{0.  ,0.  ,139.}
+\definecolor{dukeblue}    {RGB}{0.  ,0.  ,156.}
+
+% Layout
+\usepackage{multirow}
+\usepackage{setspace} %singlespacing; onehalfspacing; doublespacing; setstretch{1.1}
+%\setstretch{1.5}
+\usepackage[verbose,margin=1in]{geometry} % Margins
+\setlength{\headheight}{15pt} % Sufficent room for headers
+\usepackage[bottom]{footmisc} % Forces footnotes on bottom
+
+% Headers/Footers
+%\usepackage{datenumber}
+\usepackage{lastpage}
+\setlength{\headheight}{0pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\lhead{} \chead{} \rhead{}
+\lfoot{\today} \cfoot{}
+\rfoot{Page \thepage \,of \pageref{LastPage}}
+
+% Useful Packages
+%\usepackage{bookmark} % For speedier bookmarks
+%\usepackage{amsthm}   % For detailed theorems
+%\usepackage{amssymb}  % For fancy math symbols
+%\usepackage{amsmath}  % For awesome equations/equation arrays
+\usepackage{array}    % For tubular tables
+\usepackage{booktabs}
+\usepackage{longtable}% For long tables
+\usepackage[flushleft]{threeparttable} % For three-part tables
+\usepackage{lipsum}
+\setlength{\LTpre}{-5pt}
+\setlength{\LTpost}{-5pt}
+\usepackage{multicol} % For multi-column cells
+\usepackage{graphicx} % For shiny pictures
+\usepackage{subfig}   % For sub-shiny pictures
+\usepackage{enumerate}% For cusomtizable lists
+\usepackage{enumitem}
+
+%fontfamily
+%\usepackage{utopia}
+%\usepackage{tgheros}
+
+%\usepackage[scaled]{helvet}
+%\renewcommand\familydefault{\sfdefault} 
+%\usepackage[T1]{fontenc}
+\usepackage{palatino}
+
+\usepackage{pstricks,pst-node,pst-tree,pst-plot} % For trees
+
+\setlist[enumerate]{topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex}
+
+
+% Bib
+\usepackage[authoryear]{natbib} % Bibliography
+\usepackage{url}                % Allows urls in bib
+
+% TOC
+\setcounter{tocdepth}{4}
+
+% Links
+\usepackage{hyperref}    % Always add hyperref (almost) last
+\hypersetup{colorlinks,breaklinks,citecolor=black,filecolor=black,linkcolor=Cerulean,urlcolor=Cerulean}
+
+\usepackage[all]{hypcap} % Links point to top of image, builds on hyperref
+%\usepackage{breakurl}    % Allows urls to wrap, including hyperref
+
+
+% Custom commands
+\newcommand{\makeheading}[2]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth\marginparwidth\marginparsep}%
+         {\Huge\bfseries #1} \hfill  {\LARGE\bfseries #2 \hspace*{-2.2\marginparsep minus \marginparwidth}}\\[-0.2\baselineskip]%
+                \color{Cerulean} \rule{\textwidth}{1.5pt}\rule{\marginparsep}{1.5pt}\rule{\marginparwidth}{1.5pt}%
+         \end{minipage}}
+         
+\setlength{\parindent}{0in}
+\reversemarginpar
+\renewcommand{\section}[2]{
+        \pagebreak[3]%
+        \vspace{0.75\baselineskip}%
+        \phantomsection\addcontentsline{toc}{section}{#1}%
+        \hspace{0in}%
+        %\marginpar{\raggedright \scshape #1}#2}
+        %\rule[3.5pt]{0.9in}{1.5pt} ~~
+        {\raggedright \scshape \Large \textbf{#1}}%
+        \vspace{0.25\baselineskip}#2
+}
+
+
+
+
+
+\newcommand*\fixendlist[1]{%
+    \expandafter\let\csname preFixEndListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\csname preFixEndListend#1\endcsname\vspace{-0.6\baselineskip}}}
+
+\let\originalItem\item
+\newcommand*\fixouterlist[1]{%
+    \expandafter\let\csname preFixOuterList#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\def\csname #1\endcsname{\let\oldItem\item\def\item{\pagebreak[2]\oldItem}\csname preFixOuterList#1\endcsname}
+    \expandafter\let\csname preFixOuterListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\let\item\oldItem\csname preFixOuterListend#1\endcsname}}
+\newcommand*\fixinnerlist[1]{%
+    \expandafter\let\csname preFixInnerList#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\def\csname #1\endcsname{\let\oldItem\item\let\item\originalItem\csname preFixInnerList#1\endcsname}
+    \expandafter\let\csname preFixInnerListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\csname preFixInnerListend#1\endcsname\let\item\oldItem}}
+
+\newlist{outerlist}{itemize}{3}
+    \setlist[outerlist]{label=\enskip\textbullet,leftmargin=*}
+    \fixendlist{outerlist}
+    \fixouterlist{outerlist}
+
+\newlist{lonelist}{itemize}{3}
+    \setlist[lonelist]{label=\enskip\textbullet,leftmargin=*,partopsep=0pt,topsep=0pt}
+    \fixendlist{lonelist}
+    \fixouterlist{lonelist}
+
+\newlist{innerlist}{itemize}{3}
+    \setlist[innerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
+    \fixinnerlist{innerlist}
+
+\newlist{loneinnerlist}{itemize}{3}
+    \setlist[loneinnerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
+    \fixendlist{loneinnerlist}
+    \fixinnerlist{loneinnerlist}
+
+
+
+\begin{document}
+%\thispagestyle{empty}
+\makeheading{\color{Cerulean}Chengchao Yuan}{\href{https://scholar.google.com/citations?user=esUZFoMAAAAJ&hl=en}{\aiGoogleScholarSquare} \href{https://orcid.org/my-orcid?orcid=0000-0003-0327-6136}{\aiOrcid} \href{https://ui.adsabs.harvard.edu/public-libraries/NCRLXpiDTnGg2zwnvpAzRw}{\aiADSSquare} \href{https://inspirehep.net/authors/1671091}{\aiInspireSquare} \href{https://github.com/yuan-cc}{\faGithubSquare} \href{https://www.facebook.com/profile.php?id=100009428177031}{\faFacebookSquare} \href{https://twitter.com/YuanChengchao}{\faTwitterSquare}}
+\vspace{-0.7em}
+% ADDRESS/CONTACT HEADER
+% ==================================================================================
+\setstretch{1.0}
+\begin{multicols}{2}
+ \hypersetup{colorlinks,breaklinks,citecolor=black,filecolor=black,linkcolor=oucrimson,urlcolor=oucrimson}
+
+\begin{flushleft}
+Department of Physics
+
+322 Osmond Lab, University Park
+
+PA 16802, USA
+
+\end{flushleft}
+       
+
+\begin{flushright}
+\textit{\faPhoneSquare} +1 (814)954-2785
+
+\textit{\faEnvelope} \href{mailto:cxy52@psu.edu}{cxy52@psu.edu}
+
+\textit{\faLink} \href{https://yuan-cc.github.io}{yuan-cc.github.io}
+
+\end{flushright}
+
+\end{multicols}
+% ==================================================================================
+
+
+ \hypersetup{colorlinks,breaklinks,citecolor=black,filecolor=black,linkcolor=oucrimson,urlcolor=oucrimson}
+
+\setstretch{1.2}
+\vspace{-.25in}
+\section{\color{Cerulean}Research Interests}
+
+\vspace{-17pt}
+{\rule[-0.5ex]{\columnwidth}{0.4pt}}
+\begin{innerlist}
+\item High-energy astrophysics (particle acceleration, transport and radiation processes) 
+\item Multimessenger astrophysics (gamma rays, neutrinos and cosmic rays from extreme sources)
+\end{innerlist}
+%I am working on various aspects of multi-messenger astrophysics, including the origins and implications of high-energy photons, cosmic rays and neutrinos from individual cosmic sources and source populations. In particular, I model the {\bf acceleration, transport and radiation processes} of high-energy particles originated from {\bf compact binary pairs (super massive/stellar mass black holes), supernovae, gamma-ray bursts, active galactic nuclei and galaxy/cluster mergers}. I am interested in how the multi-messenger analyses enlighten our understanding on the physical nature of high-energy astrophysical phenomena.
+\vspace{-5pt}
+\section{\color{Cerulean}Education}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+% ==================================================================================
+\begin{tabular}{p{1.05in}>{\hangindent=1em}p{5.45in}<{\raggedright}}
+ 08/2022& \bf Ph.D. in Physics, Pennsylvania State University \\
+   & \small{\ Supervised by Prof. \href{http://personal.psu.edu/nnp/}{P\'eter M\'esz\'aros} and Prof. \href{https://science.psu.edu/physics/people/kohta-murase}{Kohta Murase} } \\
+     & \small{\ Thesis: \it  Neutrino and Electromagnetic Counterparts of Galaxy and Astrophysical Black Hole Mergers} \\
+06/2016 & \bf B.Sc. in Astronomy, Nanjing University, China \\
+& \small{\ Supervised by Prof. Xiangyu Wang and Prof. Fayin Wang}\\
+& \small{\ Undergraduate Thesis: \it The origin of high-energy astrophysical neutrinos}
+\end{tabular}
+
+\section{\color{Cerulean}Employment History}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{tabular}{p{1.05in}>{\hangindent=0.5em}p{5.65in}<{\raggedright}}
+2018 - 2022 & \textbf{Research Assistant}, Dept. of Physics, Penn State\\
+2016 - 2022& \textbf{Teaching Assistant}, Dept. of Physics, Penn State\\
+Summer 2015 & \textbf{REU Intern}, Dept. of Astronomy and Astrophysics, Penn State
+\end{tabular}
+
+\section{\color{Cerulean}Honors \& Awards}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{tabular}{p{.85in}>{\hangindent=1em}p{5.65in}<{\raggedright}}
+2022 & {\bf TDLI Prize Postdoctoral Fellowship}, Tsung-Dao Lee Institute (declined)\\
+2022, 21 &  {\bf W. Donald Miller Graduate Fellowship}, Pennsylvania State University\\
+2019-2022 &  {\bf David C. Duncan Graduate Fellowship}, Pennsylvania State University \\
+2018 &  {\bf APS Graduate Student Travel Grant}, American Physical Society \\
+2017 &  {\bf Homer F. Braddock Scholarship}, Pennsylvania State University\\
+2016 & {\bf School of Astronomy and Space Science Dean's Scholarship}, Nanjing University\\
+2016 & {\bf Outstanding Thesis Award,} Nanjing University\\
+2015 & {\bf REU Intern Travel Grant }(host institution: Penn State), Nanjing University
+\end{tabular}
+\newcommand*{\doii}[1]{\href{http://dx.doi.org/#1}{doi: #1}}
+
+\vspace{-7pt}
+\section{\color{Cerulean}Publications}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+
+\begin{addmargin}[0.56em]{2em}
+{\bf \small{Journal articles (first-author: 7)}}
+\end{addmargin}
+\begin{enumerate}
+
+\item[{[8]}] {\bf Yuan, C.}, Murase, K., Guetta, D., Pe'er, A., Bartos, I., \&  M\'esz\'aros, P., (2021) ``GeV Signature of Short Gamma-Ray Bursts in Active Galactic Nuclei", \href{https://arxiv.org/abs/2112.07653}{arXiv: 2112.07653}
+
+\item[{[7]}] {{\bf Yuan, C.}, Murase, K., Zhang, B. T., Kimura, S. S. \& M\'esz\'aros, P. (2021) ``Post-Merger Jets from Supermassive Black Hole Coalescences as Electromagnetic Counterparts of Gravitational Wave Emission'', \emph{ApJL}, 911 L15,  \doii{10.3847/2041-8213/abee24}}
+
+\item[{[6]}] {Zhang, T. B., Murase, K., {\bf Yuan, C}., Kimura, S. S. \& M\'esz\'aros, P. (2020) ``External Inverse-Compton Emission Associated with Extended and Plateau Emission of Short Gamma-Ray Bursts: Application to GRB 160821B'', \emph{ApJL} 908 L36, \doii{10.3847/2041-8213/abe0b0}}
+
+\item[{[5]}] {{\bf Yuan, C.}, Murase, K., Kimura, S. \& M\'esz\'aros, P. (2020) ``High-energy neutrino emission subsequent to gravitational wave radiation from supermassive black hole mergers'', \emph{Phys. Rev. D} 102, 083013. \doii{10.1103/PhysRevD.102.083013}}
+
+\item[{[4]}] {{\bf Yuan, C.}, Murase, K. \& M\'esz\'aros, P. (2020) ``Complementarity of Stacking and Multiplet Constraints on the Blazar Contribution to the Cumulative High-Energy Neutrino Intensity'', \emph{ApJ}, 890:1. \doii{10.3847/1538-4357/ab65ea}}
+
+\item[{[3]}] {{\bf Yuan, C.}, Murase, K. \& M\'esz\'aros, P. (2019) ``Secondary Radio and X-ray Emissions from Galaxy Mergers'', \emph{ApJ}, 878:76. \doii{10.3847/1538-4357/ab1f06}}
+
+\item[{[2]}] {{\bf Yuan, C.}, M\'esz\'aros, P., Murase K. \& Jeong, D. (2018) ``Cumulative Neutrino and Gamma-Ray Backgrounds from Halo and Galaxy Mergers'', \emph{ApJ}, 857:50. \doii{10.3847/1538-4357/aab774}}
+
+\item[{[1]}] {{\bf Yuan, C.} \& Wang, F. (2015) ``Cosmological Test Using Strong Gravitational Lensing Systems'', \emph{MNRAS}, 452:3. \doii{10.1093/mnras/stv1444}}
+\end{enumerate}
+
+
+\begin{addmargin}[0.56em]{2em}
+{\bf \small{ Conference proceedings and other articles}}
+\end{addmargin}
+\begin{enumerate}
+
+\item[{[2]}] {{\bf Yuan, C.}, M\'esz\'aros, P., Murase K. \& Jeong, D. (2018) ``Cumulative Neutrino and Gamma-Ray Backgrounds from Halo and Galaxy Mergers'', in \emph{APS April meeting: U17.004}.  \href{https://ui.adsabs.harvard.edu/abs/2018APS..APRU17004Y}{{Talk abstract}}}
+\item[{[1]}] {{\bf Yuan, C.}, Murase K. \& M\'esz\'aros, P. (2019) ``A Multi-Messenger Picture of Galaxy Mergers: Neutrinos and Electromagnetic Emissions'', \emph{(ICRC2019) 1041}. \href{https://pos.sissa.it/358/1041/pdf}{{Proceedings of Science}}}
+
+\end{enumerate}
+\vspace{-7pt}
+\section{\color{Cerulean}Conferences and Scientific Talks}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\vspace{-5pt}
+% ==================================================================================
+\begin{longtable}{p{.85in}>{\hangindent=1em}p{5.65in}<{\raggedright}}
+03/2022 & {\bf Seminar talk:} University of Maryland, virtual\\
+12/2021 & {\bf Seminar talk:} Columbia University, in-person\\
+11/2021 & {\bf Seminar talk:} DESY, virtual\\
+10/2021 & {\bf Seminar talk:} UNLV, virtual\\
+07/2021 & {\bf Contributed talk:} EPS Conference on High Energy Physics, virtual\\
+04/2021 & {\bf Contributed talk: }APS April meeting, virtual\\
+02/2021 & {\bf Lunch talk: }Institute for Gravitation and the Cosmos (IGC), Penn State, virtual\\
+10/2020 & {\bf Invited talk: }CCAPP AstroParticle Lunch, Ohio State University, virtual\\
+10/2020 &  {\bf Seminar talk: } Tohoku University, Japan, virtual\\
+09/2020 & {\bf Lunch talk: }Dept. of Astronomy \& Astrophysics, Penn State University, virtual\\
+08/2020 &{\bf Invited talk: }{Time-Domain High-Energy Messenger Astrophysics Workshop}, University of Kyoto, Japan, virtual\\
+07/2019 &{\bf Poster: }{36th International Cosmic Ray Conference (ICRC)}, Madison, WI\\
+06/2019 &{\bf Contributed talk: }{IGC@25: Multimessenger Universe Workshop}, State College, PA\\
+04/2018 &{\bf Contributed talk: }{APS April meeting}, Columbus, OH\\
+08/2015 & {\bf Lunch talk: }Dept. of Astronomy \& Astrophysics, Penn State University\\
+\end{longtable}
+\section{\color{Cerulean}Code Development}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{addmargin}[1em]{2em}
+{\bf Astrophysical Multimessenger Emission Synthesizer (AMES)}\\
+\emph{A time-dependent numerical code for the production and propagation of high-energy cosmic rays, neutrinos, and gamma-rays for various astrophysical environments}
+\begin{innerlist}
+\item Developed the code for photo-meson/photo-hadronic interaction cross sections and cosmic $\gamma\gamma$ interactions.
+\end{innerlist}
+\end{addmargin}
+% ==================================================================================
+
+\section{\color{Cerulean}Programming Skills}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{innerlist}
+\item Extensive experience in using {\bf\texttt{CRpropa}}, an astrophysical simulation code for the propagation of ultra-high-energy particles.
+\item Programming languages:  C++, Python, Mathematica and Fortran
+\end{innerlist}
+
+\section{\color{Cerulean}Teaching Experience}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{tabular}{p{1.45in}>{\hangindent=1em}p{5.35in}<{\raggedright}}
+2021 Fall (F)& T.A. PHYS 561: Quantum Mechanics\\
+2021 Spring (S)  & T.A. PHYS 400: Electrodynamics\\
+2020 F & T.A. PHYS/MATH 479: Special and General Relativity\\
+2018 S, 2019, 2020 S & Lab. T.A. PHYS 250: Introductory Physics\\
+2018 F & T.A. PHYS 525: Methods of Theoretical Physics \\
+2016 F - 2017 F, 2022 S &Lab. T.A. PHYS 212: Electromagnetism 
+\end{tabular}
+
+\section{\color{Cerulean}Selected Professional/Outreach Experience}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+\begin{tabular}{p{1.15in}>{\hangindent=1em}p{5.25in}<{\raggedright}}
+2021 & {\bf Abstract Sorting Committee} of AAS 239th Annual Meeting \\
+2021 & {\bf Journal Club Organizer} for the Center of Multimessenger Astrophysics\\
+2017 - 2022 & {\bf Guest Lecturer} and {\bf A Tour of Universe Demonstrator} at AstroFest (4-night outreach, 2500+ public
+visitors)\\ 
+2018 & {\bf Astropy Demonstrator} at
+K-12 Educators - Bring Cutting-Edge STEM Research into your Classroom (2-day outreach, 100+ high-school teachers)
+\end{tabular}
+
+
+\section{\color{Cerulean}References}
+
+\vspace{-17pt}
+\rule[-0.5ex]{\columnwidth}{0.4pt}
+
+\begin{addmargin}[1em]{2em}
+\textbf{Dr. P\'eter M\'esz\'aros} (\href{mailto:nnp@psu.edu}{nnp@psu.edu})
+\end{addmargin}
+\begin{addmargin}[2em]{2em}
+ Eberly Chair Professor, Astronomy \& Astrophysics and Physics\\
+ Pennsylvania State University, USA
+\end{addmargin}
+
+
+\begin{addmargin}[1em]{2em}
+\textbf{Dr. Kohta Murase} (\href{mailto:murase@psu.edu}{murase@psu.edu})
+\end{addmargin}
+\begin{addmargin}[2em]{2em}
+ Associate Professor, Physics and Astronomy \& Astrophysics\\
+ Pennsylvania State University, USA
+\end{addmargin}
+
+
+\begin{addmargin}[1em]{2em}
+\textbf{Dr. Dafne Guetta} (\href{mailto:dafneguetta@braude.ac.il}{dafneguetta@braude.ac.il})
+\end{addmargin}
+\begin{addmargin}[2em]{2em}
+Professor of Physics, ORT Braude College, Israel
+\end{addmargin}
+
+
+\begin{addmargin}[1em]{2em}
+\textbf{Dr. Donghui Jeong} (\href{mailto:djeong@psu.edu}{djeong@psu.edu})
+\end{addmargin}
+\begin{addmargin}[2em]{2em}
+ Associate Professor, Astronomy \& Astrophysics\\
+ Pennsylvania State University, USA
+ \end{addmargin}
+
+
+%\begin{addmargin}[1em]{2em}
+%\textbf{Dr. Xiangyu Wang} (\href{mailto:xywang@nju.edu.cn}{xywang@nju.edu.cn})
+%\end{addmargin}
+%\begin{addmargin}[2em]{2em}
+%Professor, Astronomy \& Space Science, Nanjing University, China
+%\end{addmargin}
+
+
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
